@@ -6,4 +6,9 @@ public class Constances {
 	    ON_HOLD,
 	    NOT_YET
 	}
+	
+	public enum UserRole {
+	    ADMIN,
+	    STANDARD_USER,
+	}
 }

@@ -15,41 +15,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.checklist.constances.Constances.ItemStatus;
+import com.checklist.constances.Constances.UserRole;
 import com.checklist.models.Checklist;
+import com.checklist.models.User;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/checklist")
-public class ChecklistController {
+@RequestMapping("/api/users")
+public class UserController {
 
-	private List<Checklist> checklist;
+	private List<User> users;
 	
 	@PostConstruct
 	public void init() {
-		this.checklist = new ArrayList<Checklist>();
-		//
-		List<Integer> ids = new ArrayList<>();
-		ids.add(1);
-		ids.add(2);
-		ids.add(3);
-		//
-		String now = java.time.LocalDate.now().toString();
-		//
+		this.users = new ArrayList<User>();
+
 		for (int i = 0; i < 3; i++) {
-			this.checklist.add(new Checklist(i, ids, "Checklist " + i, "Description " + i, ItemStatus.NOT_YET, new Date(2022, 1, 1), null, 1, 1));
+			this.users.add(new User(i, "Nguyen", "Van A" + i, new Date(1999, 10, i), "url..." + i, "Eng 1", "Group 1", UserRole.STANDARD_USER));
 		}
 	}
 	
 	@GetMapping("")
-	public ResponseEntity<List<Checklist>> getAll() {
-		return new ResponseEntity<List<Checklist>>(this.checklist, HttpStatus.OK);
+	public ResponseEntity<List<User>> getAll() {
+		return new ResponseEntity<List<User>>(this.users, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Checklist> getChecklistById(@PathVariable int id) {
-		for (Checklist item : checklist) {
-			if (id == item.getId()) {
-				return new ResponseEntity<Checklist>(item, HttpStatus.OK);
+	public ResponseEntity<User> getUserById(@PathVariable int id) {
+		for (User user : users) {
+			if (id == user.getId()) {
+				return new ResponseEntity<User>(user, HttpStatus.OK);
 			}
 		}
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

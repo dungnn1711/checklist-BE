@@ -7,67 +7,113 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.checklist.constances.Constances.UserRole;
+
 @Entity
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private Date dob;
-	private String url;
+	private String avaURL;
+	private String department;
+	private String group;
+	private UserRole role;
 	
-	public User(int id, String name, Date dob, String url) {
+	public User() {
+		super();
+	}
+	
+	public User(int id, String firstName, String lastName, Date dob, String avaURL, String department, String group,
+			UserRole role) {
+		super();
 		this.id = id;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.dob = dob;
-		this.url = url;
+		this.avaURL = avaURL;
+		this.department = department;
+		this.group = group;
+		this.role = role;
 	}
 	
 	public int getId() {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	public Date getDob() {
 		return dob;
 	}
-
+	
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-
-	public String getUrl() {
-		return url;
+	public String getAvaURL() {
+		return avaURL;
 	}
-
-	public void setUrl(String url) {
-		this.url = url;
+	
+	public void setAvaURL(String avaURL) {
+		this.avaURL = avaURL;
 	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", dob=" + dob + ", url=" + url + "]";
+	
+	public String getDepartment() {
+		return department;
 	}
-
+	
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	
+	public String getGroup() {
+		return group;
+	}
+	
+	public void setGroup(String group) {
+		this.group = group;
+	}
+	
+	public UserRole getRole() {
+		return role;
+	}
+	
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((avaURL == null) ? 0 : avaURL.hashCode());
+		result = prime * result + ((department == null) ? 0 : department.hashCode());
 		result = prime * result + ((dob == null) ? 0 : dob.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((url == null) ? 0 : url.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -77,26 +123,47 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (avaURL == null) {
+			if (other.avaURL != null)
+				return false;
+		} else if (!avaURL.equals(other.avaURL))
+			return false;
+		if (department == null) {
+			if (other.department != null)
+				return false;
+		} else if (!department.equals(other.department))
+			return false;
 		if (dob == null) {
 			if (other.dob != null)
 				return false;
 		} else if (!dob.equals(other.dob))
 			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (group == null) {
+			if (other.group != null)
+				return false;
+		} else if (!group.equals(other.group))
+			return false;
 		if (id != other.id)
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (lastName == null) {
+			if (other.lastName != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (url == null) {
-			if (other.url != null)
-				return false;
-		} else if (!url.equals(other.url))
+		if (role != other.role)
 			return false;
 		return true;
 	}
-
-
-
+	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + dob + ", avaURL="
+				+ avaURL + ", department=" + department + ", group=" + group + ", role=" + role + "]";
+	}
+	
 }

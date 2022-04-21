@@ -1,5 +1,6 @@
 package com.checklist.models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,22 +11,36 @@ import javax.persistence.Id;
 import com.checklist.constances.Constances.ItemStatus;
 
 @Entity
-public class CheckList {
+public class Checklist {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	private List<User> users;
+	private List<Integer> followerIds;
 	private String title;
 	private String description;
 	private ItemStatus status;
+	private Date registerDate;
+	private Date completeDate;
+	private int interval;
+	private int adminId;
 	
-	public CheckList(int id, List<User> users, String title, String description, ItemStatus status) {
+	public Checklist() {
+		super();
+	}
+
+	public Checklist(int id, List<Integer> followerIds, String title, String description, ItemStatus status, Date registerDate,
+			Date completeDate, int interval, int adminId) {
+		super();
 		this.id = id;
-		this.users = users;
+		this.followerIds = followerIds;
 		this.title = title;
 		this.description = description;
 		this.status = status;
+		this.registerDate = registerDate;
+		this.completeDate = completeDate;
+		this.interval = interval;
+		this.adminId = adminId;
 	}
 
 	public int getId() {
@@ -56,29 +71,59 @@ public class CheckList {
 		this.status = status;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public Date getRegisterDate() {
+		return registerDate;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
 	}
 
-	@Override
-	public String toString() {
-		return "CheckList [id=" + id + ", users=" + users + ", title=" + title + ", description=" + description
-				+ ", status=" + status + "]";
+	public Date getCompleteDate() {
+		return completeDate;
+	}
+
+	public void setCompleteDate(Date completeDate) {
+		this.completeDate = completeDate;
+	}
+
+	public int getInterval() {
+		return interval;
+	}
+
+	public void setInterval(int interval) {
+		this.interval = interval;
+	}
+
+	public List<Integer> getFollowerIds() {
+		return followerIds;
+	}
+
+	public void setFollowerIds(List<Integer> followerIds) {
+		this.followerIds = followerIds;
+	}
+
+	public int getAdminId() {
+		return adminId;
+	}
+
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + adminId;
+		result = prime * result + ((completeDate == null) ? 0 : completeDate.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((followerIds == null) ? 0 : followerIds.hashCode());
 		result = prime * result + id;
+		result = prime * result + interval;
+		result = prime * result + ((registerDate == null) ? 0 : registerDate.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 
@@ -90,13 +135,32 @@ public class CheckList {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CheckList other = (CheckList) obj;
+		Checklist other = (Checklist) obj;
+		if (adminId != other.adminId)
+			return false;
+		if (completeDate == null) {
+			if (other.completeDate != null)
+				return false;
+		} else if (!completeDate.equals(other.completeDate))
+			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (followerIds == null) {
+			if (other.followerIds != null)
+				return false;
+		} else if (!followerIds.equals(other.followerIds))
+			return false;
 		if (id != other.id)
+			return false;
+		if (interval != other.interval)
+			return false;
+		if (registerDate == null) {
+			if (other.registerDate != null)
+				return false;
+		} else if (!registerDate.equals(other.registerDate))
 			return false;
 		if (status != other.status)
 			return false;
@@ -104,11 +168,6 @@ public class CheckList {
 			if (other.title != null)
 				return false;
 		} else if (!title.equals(other.title))
-			return false;
-		if (users == null) {
-			if (other.users != null)
-				return false;
-		} else if (!users.equals(other.users))
 			return false;
 		return true;
 	}
