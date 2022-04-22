@@ -16,7 +16,7 @@ public class ChecklistItem {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String title;
-	private User admin;
+	private String description;
 	private List<Integer> followerIds;
 	private ItemStatus status;
 	private int checklistId;
@@ -25,11 +25,12 @@ public class ChecklistItem {
 		super();
 	}
 
-	public ChecklistItem(int id, String title, User admin, List<Integer> followerIds, ItemStatus status, int checklistId) {
+	public ChecklistItem(int id, String title, String description, List<Integer> followerIds, ItemStatus status,
+			int checklistId) {
 		super();
 		this.id = id;
 		this.title = title;
-		this.admin = admin;
+		this.description = description;
 		this.followerIds = followerIds;
 		this.status = status;
 		this.checklistId = checklistId;
@@ -47,12 +48,20 @@ public class ChecklistItem {
 		this.title = title;
 	}
 
-	public User getAdmin() {
-		return admin;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setAdmin(User admin) {
-		this.admin = admin;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Integer> getFollowerIds() {
+		return followerIds;
+	}
+
+	public void setFollowerIds(List<Integer> followerIds) {
+		this.followerIds = followerIds;
 	}
 
 	public ItemStatus getStatus() {
@@ -71,20 +80,12 @@ public class ChecklistItem {
 		this.checklistId = checklistId;
 	}
 
-	public List<Integer> getFollowerIds() {
-		return followerIds;
-	}
-
-	public void setFollowerIds(List<Integer> followerIds) {
-		this.followerIds = followerIds;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((admin == null) ? 0 : admin.hashCode());
 		result = prime * result + checklistId;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((followerIds == null) ? 0 : followerIds.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
@@ -101,12 +102,12 @@ public class ChecklistItem {
 		if (getClass() != obj.getClass())
 			return false;
 		ChecklistItem other = (ChecklistItem) obj;
-		if (admin == null) {
-			if (other.admin != null)
-				return false;
-		} else if (!admin.equals(other.admin))
-			return false;
 		if (checklistId != other.checklistId)
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
 			return false;
 		if (followerIds == null) {
 			if (other.followerIds != null)
@@ -123,12 +124,6 @@ public class ChecklistItem {
 		} else if (!title.equals(other.title))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "ChecklistItem [id=" + id + ", title=" + title + ", admin=" + admin + ", followerIds=" + followerIds
-				+ ", status=" + status + ", checklistId=" + checklistId + "]";
 	}
 
 }
