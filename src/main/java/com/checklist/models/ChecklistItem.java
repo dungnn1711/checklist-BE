@@ -1,39 +1,53 @@
 package com.checklist.models;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.checklist.constances.Constances.ItemStatus;
 
-@Entity
-public class ChecklistItem {
+@Entity(name = "ChecklistItem")
+@Table(name = "checklistItem")
+public class ChecklistItem implements Serializable {
+	
+	private static final long serialVersionUID = 2L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	@Column(nullable=false)
 	private String title;
+	@Column(nullable=true)
 	private String description;
-	private List<Integer> followerIds;
+	@Column(nullable=false)
 	private ItemStatus status;
-	private int checklistId;
+//	@ManyToMany(fetch=FetchType.LAZY)
+//	@JoinColumn
+//	private List<User> followers;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn
+//	private Checklist checklist;
 	
 	public ChecklistItem() {
 		super();
 	}
 
-	public ChecklistItem(int id, String title, String description, List<Integer> followerIds, ItemStatus status,
-			int checklistId) {
+	public ChecklistItem(String title, String description, ItemStatus status, Checklist checklist) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.followerIds = followerIds;
 		this.status = status;
-		this.checklistId = checklistId;
 	}
 
 	public int getId() {
@@ -56,13 +70,13 @@ public class ChecklistItem {
 		this.description = description;
 	}
 
-	public List<Integer> getFollowerIds() {
-		return followerIds;
-	}
-
-	public void setFollowerIds(List<Integer> followerIds) {
-		this.followerIds = followerIds;
-	}
+//	public List<User> getFollowers() {
+//		return followers;
+//	}
+//
+//	public void setFollowers(List<User> followers) {
+//		this.followers = followers;
+//	}
 
 	public ItemStatus getStatus() {
 		return status;
@@ -72,58 +86,12 @@ public class ChecklistItem {
 		this.status = status;
 	}
 
-	public int getChecklistId() {
-		return checklistId;
-	}
-
-	public void setChecklistId(int checklistId) {
-		this.checklistId = checklistId;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + checklistId;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((followerIds == null) ? 0 : followerIds.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ChecklistItem other = (ChecklistItem) obj;
-		if (checklistId != other.checklistId)
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (followerIds == null) {
-			if (other.followerIds != null)
-				return false;
-		} else if (!followerIds.equals(other.followerIds))
-			return false;
-		if (id != other.id)
-			return false;
-		if (status != other.status)
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		return true;
-	}
+//	public Checklist getChecklist() {
+//		return checklist;
+//	}
+//
+//	public void setChecklist(Checklist checklist) {
+//		this.checklist = checklist;
+//	}
 
 }

@@ -1,50 +1,84 @@
 package com.checklist.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.checklist.constances.Constances.ItemStatus;
 
-@Entity
-public class Checklist {
+@Entity(name = "Checklist")
+@Table(name = "checklist")
+public class Checklist implements Serializable {
+	
+	private static final long serialVersionUID = 3L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private List<Integer> followerIds;
+	@ManyToMany(fetch=FetchType.LAZY)
+//	@JoinColumn(name="checklist_user")
+	private List<User> followers;
+	@Column(nullable=false)
 	private String title;
+	@Column(nullable=true)
 	private String description;
+	@Column(nullable=false)
 	private ItemStatus status;
+	@Column(nullable=false)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date registerDate;
+	@Column(nullable=true)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date completeDate;
+	@Column(nullable=true)
 	private int interval;
-	private int adminId;
+	@Column(nullable=false)
+	private User admin;
+	@Column(nullable=true)
+	@OneToMany(fetch=FetchType.LAZY)
+	private List<ChecklistItem> items;
 	
 	public Checklist() {
 		super();
 	}
 
-	public Checklist(int id, List<Integer> followerIds, String title, String description, ItemStatus status, Date registerDate,
-			Date completeDate, int interval, int adminId) {
+	public Checklist(List<User> followers, String title, String description, ItemStatus status, Date registerDate,
+			Date completeDate, int interval, User admin, List<ChecklistItem> items) {
 		super();
-		this.id = id;
-		this.followerIds = followerIds;
+		this.followers = followers;
 		this.title = title;
 		this.description = description;
 		this.status = status;
 		this.registerDate = registerDate;
 		this.completeDate = completeDate;
 		this.interval = interval;
-		this.adminId = adminId;
+		this.admin = admin;
+		this.items = items;
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public List<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
 	}
 
 	public String getTitle() {
@@ -95,81 +129,20 @@ public class Checklist {
 		this.interval = interval;
 	}
 
-	public List<Integer> getFollowerIds() {
-		return followerIds;
+	public User getAdmin() {
+		return admin;
 	}
 
-	public void setFollowerIds(List<Integer> followerIds) {
-		this.followerIds = followerIds;
+	public void setAdmin(User admin) {
+		this.admin = admin;
 	}
 
-	public int getAdminId() {
-		return adminId;
+	public List<ChecklistItem> getItems() {
+		return items;
 	}
 
-	public void setAdminId(int adminId) {
-		this.adminId = adminId;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + adminId;
-		result = prime * result + ((completeDate == null) ? 0 : completeDate.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((followerIds == null) ? 0 : followerIds.hashCode());
-		result = prime * result + id;
-		result = prime * result + interval;
-		result = prime * result + ((registerDate == null) ? 0 : registerDate.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Checklist other = (Checklist) obj;
-		if (adminId != other.adminId)
-			return false;
-		if (completeDate == null) {
-			if (other.completeDate != null)
-				return false;
-		} else if (!completeDate.equals(other.completeDate))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (followerIds == null) {
-			if (other.followerIds != null)
-				return false;
-		} else if (!followerIds.equals(other.followerIds))
-			return false;
-		if (id != other.id)
-			return false;
-		if (interval != other.interval)
-			return false;
-		if (registerDate == null) {
-			if (other.registerDate != null)
-				return false;
-		} else if (!registerDate.equals(other.registerDate))
-			return false;
-		if (status != other.status)
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		return true;
+	public void setItems(List<ChecklistItem> items) {
+		this.items = items;
 	}
 	
 }

@@ -1,26 +1,43 @@
 package com.checklist.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.checklist.constances.Constances.UserRole;
 
-@Entity
-public class User {
+@Entity(name = "User")
+@Table(name = "user")
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	@Column
 	private String firstName;
+	@Column
 	private String lastName;
+	@Column
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date dob;
+	@Column
 	private String avaURL;
+	@Column
 	private String department;
+	@Column
 	private String group;
+	@Column
 	private UserRole role;
 	
 	public User() {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,31 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.checklist.constances.Constances.ItemStatus;
 import com.checklist.models.ChecklistItem;
+import com.checklist.services.ChecklistItemService;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/checklistitem")
 public class ChecklistItemController {
 	
-private List<ChecklistItem> checklistItems;
+	private List<ChecklistItem> checklistItems;
 	
-	@PostConstruct
-	public void init() {
-		this.checklistItems = new ArrayList<ChecklistItem>();
-		//
-		List<Integer> ids = new ArrayList<>();
-		ids.add(1);
-		ids.add(2);
-		ids.add(3);
-		//
-		for (int i = 0; i < 3; i++) {
-			this.checklistItems.add(new ChecklistItem(i, "Check list item " + i, "Description item " + i, ids, ItemStatus.NOT_YET, 1));
-		}
-	}
+	@Autowired
+	private ChecklistItemService checklistItemService;
 	
 	@GetMapping("")
 	public ResponseEntity<List<ChecklistItem>> getAll() {
-		return new ResponseEntity<List<ChecklistItem>>(this.checklistItems, HttpStatus.OK);
+		return new ResponseEntity<List<ChecklistItem>>(checklistItemService.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +19,7 @@ import com.checklist.constances.Constances.ItemStatus;
 import com.checklist.constances.Constances.UserRole;
 import com.checklist.models.Checklist;
 import com.checklist.models.User;
+import com.checklist.services.UserService;
 
 @RestController
 @CrossOrigin
@@ -26,18 +28,21 @@ public class UserController {
 
 	private List<User> users;
 	
-	@PostConstruct
-	public void init() {
-		this.users = new ArrayList<User>();
-
-		for (int i = 0; i < 3; i++) {
-			this.users.add(new User(i, "Nguyen", "Van A" + i, new Date(1999, 10, i), "url..." + i, "Eng 1", "Group 1", UserRole.STANDARD_USER));
-		}
-	}
+	@Autowired
+	private UserService userService;
+	
+//	@PostConstruct
+//	public void init() {
+//		this.users = new ArrayList<User>();
+//
+//		for (int i = 0; i < 3; i++) {
+//			this.users.add(new User(i, "Nguyen", "Van A" + i, new Date(1999, 10, i), "url..." + i, "Eng 1", "Group 1", UserRole.STANDARD_USER));
+//		}
+//	}
 	
 	@GetMapping("")
 	public ResponseEntity<List<User>> getAll() {
-		return new ResponseEntity<List<User>>(this.users, HttpStatus.OK);
+		return new ResponseEntity<List<User>>(userService.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
