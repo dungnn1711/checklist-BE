@@ -43,7 +43,7 @@ public class ChecklistItem implements Serializable {
 		super();
 	}
 
-	public ChecklistItem(String title, String description, ItemStatus status, Checklist checklist) {
+	public ChecklistItem(String title, String description, ItemStatus status) {
 		super();
 		this.title = title;
 		this.description = description;

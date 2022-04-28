@@ -1,6 +1,5 @@
 package com.checklist.controllers;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,28 +14,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.checklist.constances.Constances.ItemStatus;
 import com.checklist.constances.Constances.UserRole;
-import com.checklist.models.Checklist;
 import com.checklist.models.User;
-import com.checklist.services.UserService;
+import com.checklist.services.impl.UserServiceImpl;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
 
-	private List<User> users;
-	
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
 	
 //	@PostConstruct
 //	public void init() {
-//		this.users = new ArrayList<User>();
-//
-//		for (int i = 0; i < 3; i++) {
-//			this.users.add(new User(i, "Nguyen", "Van A" + i, new Date(1999, 10, i), "url..." + i, "Eng 1", "Group 1", UserRole.STANDARD_USER));
+//		for(int i = 0; i < 10; i++) {
+//			userService.save(new User("Nguyen", "Van A" + i, new Date(1997, 5, i), "url..." + i, "Eng 1", "Group 1", UserRole.STANDARD_USER));
 //		}
 //	}
 	
@@ -47,11 +40,6 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable int id) {
-		for (User user : users) {
-			if (id == user.getId()) {
-				return new ResponseEntity<User>(user, HttpStatus.OK);
-			}
-		}
-		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
 	}
 }

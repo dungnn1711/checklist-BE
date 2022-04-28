@@ -1,6 +1,5 @@
 package com.checklist.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,17 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.checklist.constances.Constances.ItemStatus;
 import com.checklist.models.ChecklistItem;
-import com.checklist.services.ChecklistItemService;
+import com.checklist.services.impl.ChecklistItemServiceImpl;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/checklistitem")
+@RequestMapping("/api/checklistitems")
 public class ChecklistItemController {
 	
-	private List<ChecklistItem> checklistItems;
-	
 	@Autowired
-	private ChecklistItemService checklistItemService;
+	private ChecklistItemServiceImpl checklistItemService;
+	
+//	@PostConstruct
+//	public void init() {
+//		for(int i = 0; i < 10; i++) {
+//			checklistItemService.save(new ChecklistItem("Item " + (i + 1), "Item description " + (i + 1), ItemStatus.NOT_YET));
+//		}
+//	}
 	
 	@GetMapping("")
 	public ResponseEntity<List<ChecklistItem>> getAll() {
@@ -35,12 +39,7 @@ public class ChecklistItemController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ChecklistItem> getChecklistItemById(@PathVariable int id) {
-		for (ChecklistItem item : this.checklistItems) {
-			if (id == item.getId()) {
-				return new ResponseEntity<ChecklistItem>(item, HttpStatus.OK);
-			}
-		}
-		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(checklistItemService.findById(id), HttpStatus.OK);
 	}
 
 }

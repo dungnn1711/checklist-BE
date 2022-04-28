@@ -16,32 +16,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.checklist.constances.Constances.ItemStatus;
+import com.checklist.constances.Constances.UserRole;
 import com.checklist.models.Checklist;
-import com.checklist.services.ChecklistService;
+import com.checklist.models.ChecklistItem;
+import com.checklist.models.User;
+import com.checklist.services.impl.ChecklistItemServiceImpl;
+import com.checklist.services.impl.ChecklistServiceImpl;
+import com.checklist.services.impl.UserServiceImpl;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/checklist")
+@RequestMapping("/api/checklists")
 public class ChecklistController {
-
-	private List<Checklist> checklist;
 	
 	@Autowired
-	private ChecklistService checklistService;
+	private ChecklistServiceImpl checklistService;
+//	@Autowired
+//	private UserServiceImpl userService;
+//	@Autowired
+//	private ChecklistItemServiceImpl checklistItemService;
 	
 //	@PostConstruct
 //	public void init() {
-//		this.checklist = new ArrayList<Checklist>();
-//		//
-//		List<Integer> ids = new ArrayList<>();
-//		ids.add(1);
-//		ids.add(2);
-//		ids.add(3);
-//		//
-//		String now = java.time.LocalDate.now().toString();
-//		//
-//		for (int i = 0; i < 3; i++) {
-//			this.checklist.add(new Checklist(i, ids, "Checklist " + i, "Description " + i, ItemStatus.NOT_YET, new Date(2022, 1, 1), null, 1, 1));
+//		List<User> users = userService.findAll();
+//		List<ChecklistItem> checklistItems = checklistItemService.findAll();
+//		for(int i = 0; i < 10; i++) {
+//			checklistService.save(new Checklist(users, "Checklist title " + (i + 1), "Checklist description " + (i + 1),
+//					ItemStatus.NOT_YET, new Date(), null, 1, users.get(0), checklistItems));
 //		}
 //	}
 	
@@ -52,11 +53,6 @@ public class ChecklistController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Checklist> getChecklistById(@PathVariable int id) {
-		for (Checklist item : checklist) {
-			if (id == item.getId()) {
-				return new ResponseEntity<Checklist>(item, HttpStatus.OK);
-			}
-		}
-		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(checklistService.findById(id), HttpStatus.OK);
 	}
 }

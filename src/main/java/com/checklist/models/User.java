@@ -21,33 +21,31 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@Column
+	@Column(nullable=false)
 	private String firstName;
-	@Column
+	@Column(nullable=false)
 	private String lastName;
-	@Column
+	@Column(nullable=false)
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date dob;
-	@Column
+	@Column(nullable=true)
 	private String avaURL;
-	@Column
+	@Column(nullable=false)
 	private String department;
-	@Column
+	@Column(nullable=false)
 	private String group;
-	@Column
+	@Column(nullable=false)
 	private UserRole role;
 	
 	public User() {
 		super();
 	}
 	
-	public User(int id, String firstName, String lastName, Date dob, String avaURL, String department, String group,
+	public User(String firstName, String lastName, Date dob, String avaURL, String department, String group,
 			UserRole role) {
 		super();
-		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;

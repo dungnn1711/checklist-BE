@@ -11,8 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,10 +27,10 @@ public class Checklist implements Serializable {
 	private static final long serialVersionUID = 3L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	@ManyToMany(fetch=FetchType.LAZY)
-//	@JoinColumn(name="checklist_user")
+	@JoinTable(name="checklist_user")
 	private List<User> followers;
 	@Column(nullable=false)
 	private String title;
@@ -45,10 +46,11 @@ public class Checklist implements Serializable {
 	private Date completeDate;
 	@Column(nullable=true)
 	private int interval;
-	@Column(nullable=false)
-	private User admin;
+	@OneToOne
+	@JoinColumn(name="author_id")
+	private User author;
 	@Column(nullable=true)
-	@OneToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY)
 	private List<ChecklistItem> items;
 	
 	public Checklist() {
@@ -56,7 +58,7 @@ public class Checklist implements Serializable {
 	}
 
 	public Checklist(List<User> followers, String title, String description, ItemStatus status, Date registerDate,
-			Date completeDate, int interval, User admin, List<ChecklistItem> items) {
+			Date completeDate, int interval, User author, List<ChecklistItem> items) {
 		super();
 		this.followers = followers;
 		this.title = title;
@@ -65,7 +67,7 @@ public class Checklist implements Serializable {
 		this.registerDate = registerDate;
 		this.completeDate = completeDate;
 		this.interval = interval;
-		this.admin = admin;
+		this.author = author;
 		this.items = items;
 	}
 
@@ -129,12 +131,12 @@ public class Checklist implements Serializable {
 		this.interval = interval;
 	}
 
-	public User getAdmin() {
-		return admin;
+	public User getAuthor() {
+		return author;
 	}
 
-	public void setAdmin(User admin) {
-		this.admin = admin;
+	public void setAuthor(User admin) {
+		this.author = admin;
 	}
 
 	public List<ChecklistItem> getItems() {

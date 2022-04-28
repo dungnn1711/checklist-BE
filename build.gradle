@@ -29,7 +29,13 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:5.1.46'
 	
 	// implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '1.4.0.RELEASE'
-	// implementation group: 'org.springframework', name: 'spring-tx', version: '4.1.7.RELEASE'	
+	// implementation group: 'org.springframework', name: 'spring-tx', version: '4.1.7.RELEASE'
+	
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
