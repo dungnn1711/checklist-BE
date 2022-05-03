@@ -3,7 +3,9 @@ package com.checklist.models;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +20,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.checklist.constances.Constances.ItemStatus;
 
 @Entity(name = "Checklist")
@@ -29,28 +35,31 @@ public class Checklist implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	@ManyToMany(fetch=FetchType.LAZY)
+//	@org.hibernate.annotations.ForeignKey(name = "none")
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@Fetch(value = FetchMode.SUBSELECT)
+//	@Cascade(value= {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
 	@JoinTable(name="checklist_user")
 	private List<User> followers;
-	@Column(nullable=false)
+	@Column
 	private String title;
-	@Column(nullable=true)
+	@Column
 	private String description;
-	@Column(nullable=false)
+	@Column
 	private ItemStatus status;
-	@Column(nullable=false)
+	@Column(name = "register_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date registerDate;
-	@Column(nullable=true)
+	@Column(name = "complete_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date completeDate;
-	@Column(nullable=true)
+	@Column
 	private int interval;
 	@OneToOne
 	@JoinColumn(name="author_id")
 	private User author;
-	@Column(nullable=true)
-	@ManyToMany(fetch=FetchType.LAZY)
+	@Column
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<ChecklistItem> items;
 	
 	public Checklist() {

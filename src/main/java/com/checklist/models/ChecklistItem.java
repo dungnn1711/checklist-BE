@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.checklist.constances.Constances.ItemStatus;
 
 @Entity(name = "ChecklistItem")
-@Table(name = "checklistItem")
+@Table(name = "checklist_item")
 public class ChecklistItem implements Serializable {
 	
 	private static final long serialVersionUID = 2L;
@@ -26,18 +26,15 @@ public class ChecklistItem implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@Column(nullable=false)
+	@Column
 	private String title;
-	@Column(nullable=true)
+	@Column
 	private String description;
-	@Column(nullable=false)
+	@Column
 	private ItemStatus status;
 //	@ManyToMany(fetch=FetchType.LAZY)
 //	@JoinColumn
 //	private List<User> followers;
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn
-//	private Checklist checklist;
 	
 	public ChecklistItem() {
 		super();
@@ -85,13 +82,5 @@ public class ChecklistItem implements Serializable {
 	public void setStatus(ItemStatus status) {
 		this.status = status;
 	}
-
-//	public Checklist getChecklist() {
-//		return checklist;
-//	}
-//
-//	public void setChecklist(Checklist checklist) {
-//		this.checklist = checklist;
-//	}
 
 }

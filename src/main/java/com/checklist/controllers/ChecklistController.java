@@ -31,20 +31,6 @@ public class ChecklistController {
 	
 	@Autowired
 	private ChecklistServiceImpl checklistService;
-//	@Autowired
-//	private UserServiceImpl userService;
-//	@Autowired
-//	private ChecklistItemServiceImpl checklistItemService;
-	
-//	@PostConstruct
-//	public void init() {
-//		List<User> users = userService.findAll();
-//		List<ChecklistItem> checklistItems = checklistItemService.findAll();
-//		for(int i = 0; i < 10; i++) {
-//			checklistService.save(new Checklist(users, "Checklist title " + (i + 1), "Checklist description " + (i + 1),
-//					ItemStatus.NOT_YET, new Date(), null, 1, users.get(0), checklistItems));
-//		}
-//	}
 	
 	@GetMapping("")
 	public ResponseEntity<List<Checklist>> getAll() {
@@ -53,6 +39,6 @@ public class ChecklistController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Checklist> getChecklistById(@PathVariable int id) {
-		return new ResponseEntity<>(checklistService.findById(id), HttpStatus.OK);
+		return new ResponseEntity<Checklist>(checklistService.findById(id), HttpStatus.OK);
 	}
 }

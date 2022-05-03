@@ -2,7 +2,9 @@ package com.checklist;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -46,7 +48,6 @@ public class ChecklistApplication {
 	@PostConstruct
 	public void init() {
 		List<User> users = new ArrayList<User>();
-//		List<Checklist> checklists = new ArrayList<Checklist>();
 		List<ChecklistItem> checklistItems = new ArrayList<ChecklistItem>();
 		for (int i = 0; i < 10; i++) {
 			User user = new User("Nguyen", "Van A" + i, new Date(1997, 5, i), "url..." + i, "Eng 1", "Group 1",
@@ -57,6 +58,7 @@ public class ChecklistApplication {
 			userService.save(users.get(i));
 			checklistItemService.save(checklistItems.get(i));
 		}
+		Set<User> hashSet = new HashSet<User>(users);
 		for (int i = 0; i < 3; i++) {
 			checklistService.save(new Checklist(users, "Checklist title " + (i + 1), "Checklist description " + (i + 1),
 					ItemStatus.NOT_YET, new Date(), null, 1, users.get(0), checklistItems));

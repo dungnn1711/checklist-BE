@@ -28,7 +28,7 @@ public class BeanConfig {
   }
 
   @Autowired
-  @Bean(name = "sessionFactory")
+  @Bean(name = "entityManagerFactory")
   public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
     Properties properties = new Properties();
     properties.put("hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
@@ -55,4 +55,5 @@ public class BeanConfig {
     HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
     return transactionManager;
   }
+
 }

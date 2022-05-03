@@ -23,20 +23,20 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@Column(nullable=false)
+	@Column
 	private String firstName;
-	@Column(nullable=false)
+	@Column
 	private String lastName;
-	@Column(nullable=false)
+	@Column
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date dob;
-	@Column(nullable=true)
+	@Column
 	private String avaURL;
-	@Column(nullable=false)
+	@Column
 	private String department;
-	@Column(nullable=false)
+	@Column
 	private String group;
-	@Column(nullable=false)
+	@Column
 	private UserRole role;
 	
 	public User() {
@@ -112,73 +112,6 @@ public class User implements Serializable {
 	
 	public void setRole(UserRole role) {
 		this.role = role;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((avaURL == null) ? 0 : avaURL.hashCode());
-		result = prime * result + ((department == null) ? 0 : department.hashCode());
-		result = prime * result + ((dob == null) ? 0 : dob.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((group == null) ? 0 : group.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
-		return result;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (avaURL == null) {
-			if (other.avaURL != null)
-				return false;
-		} else if (!avaURL.equals(other.avaURL))
-			return false;
-		if (department == null) {
-			if (other.department != null)
-				return false;
-		} else if (!department.equals(other.department))
-			return false;
-		if (dob == null) {
-			if (other.dob != null)
-				return false;
-		} else if (!dob.equals(other.dob))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (group == null) {
-			if (other.group != null)
-				return false;
-		} else if (!group.equals(other.group))
-			return false;
-		if (id != other.id)
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (role != other.role)
-			return false;
-		return true;
-	}
-	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + dob + ", avaURL="
-				+ avaURL + ", department=" + department + ", group=" + group + ", role=" + role + "]";
 	}
 	
 }

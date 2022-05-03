@@ -5,13 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
 
-import com.checklist.models.Checklist;
 import com.checklist.models.ChecklistItem;
-import com.checklist.models.User;
 import com.checklist.repositories.ChecklistItemRepo;
-import com.checklist.repositories.ChecklistRepo;
-import com.checklist.repositories.UserRepo;
 import com.checklist.services.ChecklistItemService;
 
 @Service
@@ -28,7 +25,7 @@ public class ChecklistItemServiceImpl implements ChecklistItemService{
 
 	@Override
 	public ChecklistItem findById(final int id) {
-		return checklistItemRepo.findById(id);
+		return checklistItemRepo.getById(id);
 	}
 
 	@Override
@@ -37,13 +34,16 @@ public class ChecklistItemServiceImpl implements ChecklistItemService{
 	}
 
 	@Override
-	public void update(final ChecklistItem checklistItem) {
-		checklistItemRepo.update(checklistItem);
+	public void update(final ChecklistItem checklistItem) throws NotFound {
+		ChecklistItem _checklistItem = checklistItemRepo.getById(checklistItem.getId());
+		if (_checklistItem != null) {
+			checklistItemRepo.save(checklistItem);
+		}
 	}
 
 	@Override
 	public void delete(final int id) {
-		ChecklistItem checklistItem = checklistItemRepo.findById(id);
+		ChecklistItem checklistItem = checklistItemRepo.getById(id);
 		if (checklistItem != null) {
 			checklistItemRepo.delete(checklistItem);
 		}
